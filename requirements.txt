@@ -1,0 +1,14 @@
+Flask
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-Login
+Flask-SocketIO
+eventlet
+email-validator
+python-dotenv
+requests
+beautifulsoup4
+python-socketio
+websocket-client
+regex

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Создание приватного чата{% endblock %}
+{% block content %}
+<h2>Создание приватного чата</h2>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        <label for="password">Придумайте пароль:</label><br>
+        {{ form.password(size=32) }}<br>
+        {% if form.password.errors %}
+            <ul class="errors">
+            {% for error in form.password.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div style="margin-top: 10px;">
+        {{ form.submit() }}
+    </div>
+</form>
+<div style="margin-top: 20px;">
+    <button onclick="location.href='{{ url_for('menu_private_chat') }}'">Назад</button>
+    <button onclick="location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+</div>
+{% endblock %}

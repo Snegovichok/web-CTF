@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Приватный чат{% endblock %}
+{% block content %}
+<h2>Приватный чат: {{ chat_id }}</h2>
+<div id="chat-box" style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:scroll;">
+    {% for msg in messages %}
+        <div>@{{ msg.username }} [{{ msg.timestamp }}]: {{ msg.message }}</div>
+    {% endfor %}
+</div>
+<textarea id="message-input" rows="3" maxlength="500" placeholder="Введите сообщение..."></textarea>
+<div id="char-count">0/500</div>
+<br>
+<button id="send-btn">Отправить</button>
+<button onclick="window.location.href='{{ url_for('menu_private_chat') }}'">Назад</button>
+<button onclick="window.location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+    const socket = io();
+    const username = "{{ current_user.username }}";
+    socket.emit('join_private_chat', { chat_id: window.currentChatId });
+    window.currentChatId = "{{ chat_id }}";
+</script>
+<script src="{{ url_for('static', filename='js/private_chat.js') }}"></script>
+{% endblock %}

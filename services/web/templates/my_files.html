@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Мои файлы{% endblock %}
+
+{% block content %}
+<h2>Мои файлы</h2>
+<p>Статус: Использовано {{ (used / (1024*1024))|round(2) }} / {{ max_limit }} МБ</p>
+
+<form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="file" name="files[]" multiple accept=".txt,.pdf,.docx,.xlsx,.jpeg,.jpg,.png">
+    <input type="submit" value="Загрузить файлы">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Размер</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in files %}
+        <tr>
+            <td>{{ file.filename }}</td>
+            <td>{{ (file.filesize / (1024*1024))|round(2) }} МБ</td>
+            <td>
+                <a href="{{ url_for('download_file', file_id=file.id) }}">Скачать</a>
+                <form action="{{ url_for('delete_file', file_id=file.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Удалить файл?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{{ url_for('account') }}">Назад</a> |
+<a href="{{ url_for('logout') }}">Выйти из аккаунта</a>
+{% endblock %}
