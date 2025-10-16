@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Подключение к приватному чату{% endblock %}
+{% block content %}
+<h2>Подключиться к приватному чату</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <label for="chat_id">ID чата (6 символов):</label>
+    {{ form.chat_id(size=6) }}<br>
+    <label for="password">Пароль чата:</label>
+    {{ form.password() }}<br>
+    {{ form.submit() }}
+</form>
+<button onclick="location.href='{{ url_for('menu_private_chat') }}'">Назад</button>
+<button onclick="location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+{% endblock %}

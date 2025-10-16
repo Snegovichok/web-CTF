@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Меню приватных чатов{% endblock %}
+{% block content %}
+<h2>Меню приватных чатов</h2>
+<button onclick="location.href='{{ url_for('create_private_chat') }}'">Создать приватный чат</button>
+<button onclick="location.href='{{ url_for('my_private_chats') }}'">Мои приватные чаты</button>
+<button onclick="location.href='{{ url_for('connect_private_chat') }}'">Подключиться к приватному чату</button>
+<button onclick="location.href='{{ url_for('account') }}'">Назад</button>
+<button onclick="location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Мои приватные чаты{% endblock %}
+{% block content %}
+<h2>Мои приватные чаты</h2>
+{% if chats %}
+<table border="1">
+    <tr>
+        <th>ID чата</th>
+        <th>Дата создания</th>
+        <th>Действия</th>
+    </tr>
+    {% for chat in chats %}
+    <tr>
+        <td>{{ chat.id }}</td>
+        <td>{{ chat.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+        <td>
+            <button onclick="location.href='{{ url_for('private_chat', chat_id=chat.id) }}'">Открыть</button>
+            <button onclick="confirmDelete('{{ chat.id }}')">Удалить</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>У вас пока нет приватных чатов.</p>
+{% endif %}
+<button onclick="location.href='{{ url_for('menu_private_chat') }}'">Назад</button>
+<button onclick="location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+<script>
+function confirmDelete(chatId) {
+    if (confirm('Вы уверены, что хотите удалить чат ' + chatId + '?')) {
+        fetch(`/delete_private_chat/${chatId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            }
+        }).then(() => location.reload());
+    }
+}
+</script>
+{% endblock %}

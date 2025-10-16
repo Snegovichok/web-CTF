@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<h2>Регистрация аккаунта</h2>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('register') }}" novalidate>
+    {{ form.hidden_tag() }}
+    <div style="margin-bottom: 15px;">
+        {{ form.username.label }}<br>
+        {{ form.username(size=32, id="username") }}
+        <span id="username-check" class="hint"></span><br>
+        {% for error in form.username.errors %}
+            <span class="error" style="color: red;">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div style="margin-bottom: 15px;">
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}<br>
+        {% for error in form.password.errors %}
+            <span class="error" style="color: red;">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div style="margin-bottom: 15px;">
+        {{ form.confirm_password.label }}<br>
+        {{ form.confirm_password(size=32) }}<br>
+        {% for error in form.confirm_password.errors %}
+            <span class="error" style="color: red;">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div style="margin-top: 20px;">
+        {{ form.submit(class="btn") }}
+        <a href="{{ url_for('index') }}" class="btn">Назад</a>
+    </div>
+</form>
+{% endblock %}
